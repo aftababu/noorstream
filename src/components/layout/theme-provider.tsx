@@ -11,6 +11,7 @@ const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 export function ThemeProvider({
   children,
   defaultTheme = { mode: 'light', color: 'green' },
+  //eslint-disable-next-line
   storageKey = 'distort-ui-theme',
   ...props
 }: ThemeProviderProps) {
