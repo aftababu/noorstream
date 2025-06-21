@@ -43,8 +43,6 @@
   --color-sidebar-ring: var(--sidebar-ring);
 }
 
-
-
 :root {
   --background: hsl(0 0% 100%);
   --foreground: hsl(240 10% 3.9%);
@@ -124,4 +122,68 @@
   body {
     @apply bg-background text-foreground;
   }
+  .ytp-pause-overlay,
+  .ytp-pause-overlay-container,
+  .ytp-paid-content-overlay {
+    @apply hidden scale-0 opacity-0;
+  }
+  .truncate a {
+    @apply text-blue-500 underline;
+  }
+  .truncate div {
+    @apply max-w-[100%] whitespace-pre;
+  }
+
+  .truncate div  a {
+    @apply text-blue-500 underline;
+  }
+}
+/* .player{
+  background-color: aqua !important;
+  padding: 10rem;
+} */
+.ytp-paid-content-overlay {
+  opacity: 0 !important;
+}
+.player.ytp-pause-overlay,
+.player.ytp-pause-overlay-container,
+.player.ytp-paid-content-overlay {
+  display: none !important;
+  transform: scale(0) !important;
+  opacity: 0 !important;
+  bottom: 100000px !important;
+}
+.kids-mode {
+  --background: 220 100% 97%;
+  --foreground: 240 10% 3.9%;
+
+  --primary: 230 100% 65%;
+  --primary-foreground: 0 0% 98%;
+
+  --secondary: 48 100% 75%;
+  --secondary-foreground: 240 5.9% 10%;
+
+  --border: 230 100% 85%;
+  --input: 220 100% 90%;
+
+  font-size: 1.05em;
+  letter-spacing: 0.01em;
+}
+
+.kids-mode button,
+.kids-mode a {
+  border-radius: 0.75rem !important;
+}
+
+.kids-mode .card {
+  border-radius: 1rem !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.ytp-pause-overlay,
+.ytp-pause-overlay-container,
+.ytp-paid-content-overlay {
+  /* @apply hidden sca; */
+  display: none !important;
+  transform: scale(0) !important;
+  opacity: 0 !important;
 }
