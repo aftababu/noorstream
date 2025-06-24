@@ -62,7 +62,6 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
-    console.log("Session data:", session?.user);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
