@@ -17,6 +17,7 @@ const videoSchema = z.object({
   collections: z.array(z.string()).optional(),
 });
 
+// In your API route
 export const GET = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
@@ -27,10 +28,16 @@ export const GET = async (req: NextRequest) => {
     const { searchParams } = new URL(req.url);
     console.log("Search parameters:", searchParams.toString());
     const limit = parseInt(searchParams.get("limit") || "10", 10);
-
     const page = parseInt(searchParams.get("page") || "1", 10);
     const skip = (page - 1) * limit;
-    console.log("Pagination - Page:", page, "Limit:", limit, "Skip:", skip);
+    
+    // Get total count for pagination
+    const totalVideos = await prisma.video.count({
+      where: {
+        addedById: session.user.id,
+      }
+    });
+
     const videos = await prisma.video.findMany({
       skip,
       where: {
@@ -49,7 +56,19 @@ export const GET = async (req: NextRequest) => {
         },
       },
     });
-    return NextResponse.json({ data: videos }, { status: 200 });
+
+    // Calculate pagination info
+    const totalPages = Math.ceil(totalVideos / limit);
+    
+    return NextResponse.json({ 
+      data: videos,
+      pagination: {
+        total: totalVideos,
+        page,
+        pages: totalPages,
+        limit
+      } 
+    }, { status: 200 });
   } catch (error) {
     console.error("Error in GET /api/videos:", error);
     return NextResponse.json(
@@ -62,7 +81,6 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   try {
     const session = await getServerSession(authOptions);
-    console.log("Session data:", session?.user);
     if (!session?.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }

@@ -38,10 +38,10 @@ export default function Sidebar({ viewMode, toggleViewMode }: SidebarProps) {
         />
         
         <NavItem 
-          href="/customize" 
+          href="/settings" 
           icon={<Settings className={cn(isKidsMode && "h-6 w-6")} />} 
-          label="Customize" 
-          active={pathname === "/customize"} 
+          label="Settings" 
+          active={pathname === "/settings"} 
           isKidsMode={isKidsMode} 
         />
         

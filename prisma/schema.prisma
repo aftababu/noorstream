@@ -97,7 +97,7 @@ model Collection {
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   videos        Video[]   @relation("CollectionToVideo")
   exportKey     String?   @unique 
-  exportLinks   ExportLink[]     
+  exportLinks   ExportLinkToCollections[]     
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 }
@@ -106,8 +106,7 @@ model ExportLink {
   id            String    @id @default(cuid())
   token         String    @unique
   password      String?   
-  collectionId  String?   
-  collection    Collection? @relation(fields: [collectionId], references: [id], onDelete: SetNull)
+  collections  ExportLinkToCollections[]
   userId        String
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
   expiresAt     DateTime?  
@@ -115,6 +114,14 @@ model ExportLink {
   
   @@index([token])
   @@index([userId])
+}
+model ExportLinkToCollections{
+  collectionId String
+  exportLinksId String 
+  collection Collection @relation(fields: [collectionId],references: [id],onDelete: Cascade)
+  exportLink ExportLink @relation(fields: [exportLinksId],references: [id],onDelete: Cascade) 
+
+  @@id([collectionId,exportLinksId])
 }
 
 model Subscription {

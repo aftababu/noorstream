@@ -2,27 +2,19 @@
 
 import { ReactNode } from "react";
 import { SessionProvider as NextAuthSessionProvider } from "next-auth/react";
-import { cache } from "react";
 
 interface SessionProviderProps {
   children: ReactNode;
 }
 
 // Create a cached version of the session fetcher
-export const getSession = cache(async () => {
-  const res = await fetch("/api/auth/session");
-  const session = await res.json();
-  return session;
-});
-
 export default function SessionProvider({ children }: SessionProviderProps) {
   return (
-    <NextAuthSessionProvider>
+    <NextAuthSessionProvider >
       {children}
     </NextAuthSessionProvider>
   );
 }
-
 // Create a hook that uses react-query for additional caching
 // export function useSessionQuery() {
 //   const query = useQuery({
